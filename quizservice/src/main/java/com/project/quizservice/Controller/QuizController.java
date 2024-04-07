@@ -3,6 +3,7 @@ package com.project.quizservice.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +36,8 @@ public class QuizController
         return ResponseEntity.ok().body(quizService.getAllQuiz());
     }
 
-    @GetMapping("/get/{id}")
-    public Quiz getQuizById(@PathVariable(value = "id") String quizId)
+    @GetMapping("/get/{quizid}")
+    public List<Quiz> getQuizById(@PathVariable(value = "quizid") String quizId)
     {
         return quizService.getQuizById(quizId);
     }
@@ -52,9 +53,33 @@ public class QuizController
 
     }*/
 
+    public List<Quiz> getAllQuizById(@PathVariable String quizId)
+    {
+        return quizService.getAllQuizById(quizId);
+    }
+
     @DeleteMapping("/delete/{quizId}")
     public void deleteById(@PathVariable(value = "quizId") String quizId)
     {
         quizService.deleteById(quizId);
+    }
+
+    // public ResponseEntity<Quiz> assignQuizToUser(@PathVariable String userId, @PathVariable String quizId)
+    // {
+    //     return ResponseEntity.status(HttpStatus.ACCEPTED).body(quizService.assignQuizToUser(userId, quizId));
+    // }
+
+    @GetMapping("/getQuizbyIds")
+    public List<Quiz> getQuizbyIds(@RequestBody List<String> requestQuizIds)
+    {
+        System.out.println(requestQuizIds);
+        return quizService.getQuizzesByIds(requestQuizIds);
+    }
+
+    @GetMapping("/getAllQuizIds")
+    public List<Quiz> getAllQuizIds()
+    {
+
+        return quizService.getAllQuizes();
     }
 }

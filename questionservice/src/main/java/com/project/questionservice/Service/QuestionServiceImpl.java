@@ -25,7 +25,6 @@ public class QuestionServiceImpl implements QuestionService
     public List<Question> getAllQuestion() 
     {
         List<Question> question = questionRepository.findAll();
-
         return question;
     }
 

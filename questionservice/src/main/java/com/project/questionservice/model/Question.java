@@ -39,4 +39,14 @@ public class Question
 
     @Column(name = "correctAnswer")
     private String correctAnswer;
+
+    @Override
+    public String toString() 
+    {
+        return "Question [questionId=" + questionId + ", quizId=" + quizId + ", question=" + question + ", option1="
+                + option1 + ", option2=" + option2 + ", option3=" + option3 + ", option4=" + option4
+                + ", correctAnswer=" + correctAnswer + "]";
+    }
+
+    
 }

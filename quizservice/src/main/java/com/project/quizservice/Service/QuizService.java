@@ -11,8 +11,16 @@ public interface QuizService
 
     List<Quiz> getAllQuiz();
 
-    Quiz getQuizById(String quizId);
+    List<Quiz> getQuizById(String quizId);
 
     void deleteById(String quizId);
+
+    List<Quiz> getAllQuizById(String quizId);
+
+    List<Quiz> getAllQuizes();
+
+    List<Quiz> getQuizzesByIds(List<String> quizIds);
+
+    // Quiz assignQuizToUser(String userId, String quizId);
    
 }

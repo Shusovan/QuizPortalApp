@@ -88,9 +88,9 @@ public class QuizServiceImp implements QuizService
     }*/
 
     @Override
-    public Quiz getQuizById(String quizId) 
+    public List<Quiz> getQuizById(String quizId) 
     {
-        Quiz q = quizRepository.findByQuizId(quizId);
+        List<Quiz> q = quizRepository.findByQuizId(quizId);
 
         return q;
     }
@@ -99,6 +99,25 @@ public class QuizServiceImp implements QuizService
     public void deleteById(String quizId) 
     {
         quizRepository.deleteByQuizKey(quizId);
+    }
+
+    @Override
+    public List<Quiz> getAllQuizById(String quizId) 
+    {
+        List<Quiz> quiz = quizRepository.findByQuizId(quizId);
+
+        return quiz;
+    }
+    
+    public List<Quiz> getQuizzesByIds(List<String> quizIds) {
+        return quizRepository.findAllByQuizIdIn(quizIds);
+    }
+
+    @Override
+    public List<Quiz> getAllQuizes() {
+        // TODO Auto-generated method stub
+        return quizRepository.findAll();
+
     }
 
 }
