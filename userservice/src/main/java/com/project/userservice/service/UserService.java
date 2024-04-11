@@ -2,8 +2,6 @@ package com.project.userservice.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.project.userservice.model.User;
 import com.project.userservice.model.UserQuiz;
 

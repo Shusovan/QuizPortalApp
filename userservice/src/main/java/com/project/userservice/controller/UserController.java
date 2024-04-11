@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.userservice.config.QuizClient;
 import com.project.userservice.model.Quiz;
 import com.project.userservice.model.User;
-import com.project.userservice.model.UserQuiz;
 import com.project.userservice.service.UserService;
 
 @RestController
