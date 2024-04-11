@@ -14,7 +14,10 @@ import feign.Param;
 @Transactional
 public interface QuizRepository extends JpaRepository<Quiz, Long>
 {
-    public List<Quiz> findByQuizId(String quizId);
+    public Quiz findByQuizId(String quizId);
+    @Query("SELECT q FROM Quiz q WHERE q.quizId IN :quizIds")
+    public List<Quiz> findByQuizIds(List<String> quizIds);
+    
     public List<Quiz> findAllByQuizIdIn(List<String> ids);
 
     @Modifying

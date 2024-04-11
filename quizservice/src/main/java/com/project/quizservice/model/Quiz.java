@@ -36,7 +36,7 @@ public class Quiz
     private String tittle;
 
     @Column(name = "duration_minutes")
-    private int duration;
+    private Long duration;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL, CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REFRESH })

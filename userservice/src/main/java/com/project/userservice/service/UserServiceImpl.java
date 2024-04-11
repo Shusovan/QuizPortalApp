@@ -67,6 +67,27 @@ public class UserServiceImpl implements UserService
         
     }
 
+    @Override
+    public List<UserQuiz> getAllUserQuiz() {
+        
+        return userQuizRepository.findAll();
+     }
+
+    @Override
+    public User assigneQuizTouser(String userId, String quizId) 
+    {
+        
+        User user = userRepository.findByUserId(userId);
+        UserQuiz uq = new UserQuiz(user,quizId);
+        userQuizRepository.save(uq);
+
+
+        List<String> allUserQuiz = userQuizRepository.findQuizIdsByUserId(user.getUserId());
+        List<Quiz> quizList = quizClient.getQuizWithQuestions( String.join(",", allUserQuiz));
+        user.setQuiz(quizList);
+        return user;
+    }
+
     // @Override
     // public User assignQuizToUser(String userId, String quizId)
     // {

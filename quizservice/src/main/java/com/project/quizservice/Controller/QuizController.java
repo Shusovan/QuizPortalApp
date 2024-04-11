@@ -1,5 +1,6 @@
 package com.project.quizservice.Controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.quizservice.Service.QuizService;
@@ -37,7 +39,7 @@ public class QuizController
     }
 
     @GetMapping("/get/{quizid}")
-    public List<Quiz> getQuizById(@PathVariable(value = "quizid") String quizId)
+    public Quiz getQuizById(@PathVariable(value = "quizid") String quizId)
     {
         return quizService.getQuizById(quizId);
     }
@@ -53,7 +55,7 @@ public class QuizController
 
     }*/
 
-    public List<Quiz> getAllQuizById(@PathVariable String quizId)
+    public Quiz getAllQuizById(@PathVariable String quizId)
     {
         return quizService.getAllQuizById(quizId);
     }
@@ -70,16 +72,23 @@ public class QuizController
     // }
 
     @GetMapping("/getQuizbyIds")
-    public List<Quiz> getQuizbyIds(@RequestBody List<String> requestQuizIds)
+    public List<Quiz> getQuizbyIds(@RequestParam String requestQuizIds)
     {
         System.out.println(requestQuizIds);
-        return quizService.getQuizzesByIds(requestQuizIds);
+        List<String> requestedIds = Arrays.asList(requestQuizIds.split(","));
+        return quizService.getQuizzesByIds(requestedIds);
     }
 
     @GetMapping("/getAllQuizIds")
     public List<Quiz> getAllQuizIds()
     {
-
         return quizService.getAllQuizes();
+    }
+
+    @GetMapping("/getQuizWithQuestions")
+    public List<Quiz> getQuizWithQuestions(@RequestParam String quizIds)
+    {
+        // return ResponseEntity.status(HttpStatus.FOUND).body(quizService.getQuizWithQuestions(quizIds));
+        return quizService.getQuizWithQuestions(quizIds);
     }
 }

@@ -19,5 +19,8 @@ public interface UserService
     User getSingleUser(String userId);
 
     // User assignQuizToUser(String userId, String quizId);
+    List<UserQuiz> getAllUserQuiz();
+
+    User assigneQuizTouser(String userId, String quizId);
     
 }

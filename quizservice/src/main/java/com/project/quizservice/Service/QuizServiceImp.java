@@ -1,6 +1,7 @@
 package com.project.quizservice.Service;
 
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,38 +62,13 @@ public class QuizServiceImp implements QuizService
         return allQuiz;
     }
 
-    /*@SuppressWarnings("null")
     @Override
-    public Boolean deleteById(Long quizId) 
+    public Quiz getQuizById(String quizId) 
     {
-        try
-        {
-            Optional<Quiz> found = quizRepository.findByQuizId(quizId);
-            if (found.isPresent())
-            {
-                quizRepository.deleteById(quizId);
-            }
-            else
-            {
-                return false;
-            }
-            
-        }
-        
-        catch(Exception exception)
-        {
-            return false;
-        }
+        Quiz quiz = quizRepository.findByQuizId(quizId);
+        quiz.setQuestions(questionClient.getQuestionOfQuiz(quiz.getQuizId()));
 
-        return true;
-    }*/
-
-    @Override
-    public List<Quiz> getQuizById(String quizId) 
-    {
-        List<Quiz> q = quizRepository.findByQuizId(quizId);
-
-        return q;
+        return quiz;
     }
 
     @Override
@@ -102,9 +78,9 @@ public class QuizServiceImp implements QuizService
     }
 
     @Override
-    public List<Quiz> getAllQuizById(String quizId) 
+    public Quiz getAllQuizById(String quizId) 
     {
-        List<Quiz> quiz = quizRepository.findByQuizId(quizId);
+        Quiz quiz = quizRepository.findByQuizId(quizId);
 
         return quiz;
     }
@@ -118,6 +94,18 @@ public class QuizServiceImp implements QuizService
         // TODO Auto-generated method stub
         return quizRepository.findAll();
 
+    }
+
+    @Override
+    public List<Quiz> getQuizWithQuestions(String quizId) 
+    {
+        List<String> quizIds = Arrays.asList(quizId.split(","));
+        List<Quiz> quizList = quizRepository.findByQuizIds(quizIds);
+        for(Quiz q : quizList)
+        {
+            q.setQuestions(questionClient.getQuestionOfQuiz(q.getQuizId()));
+        }
+        return quizList;
     }
 
 }

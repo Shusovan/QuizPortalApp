@@ -2,6 +2,7 @@ package com.project.userservice.model;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.ForeignKey;
 
@@ -13,7 +14,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -33,10 +37,8 @@ public class UserQuiz
     @Column(name = "quizId")
     private String quizId;
 
-    //@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL, CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REFRESH })
-    @Column(name = "userId")
-    //@JoinColumn(name = "fk_userId", referencedColumnName = "userId")
-    private String userId;
+    @ManyToOne
+    private User user;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "rowCreated")
@@ -44,4 +46,14 @@ public class UserQuiz
 
     @Column(name = "isDisabled")
     private boolean isDisabled = false;
+
+    public UserQuiz(User user, String quizId)
+    {
+        this.user = user;
+        this.quizId = quizId;
+    }
+
+    public UserQuiz()
+    {}
+
 }
