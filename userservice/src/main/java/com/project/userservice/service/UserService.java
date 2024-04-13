@@ -14,11 +14,12 @@ public interface UserService
 
     User getUserById(String userId);
 
-    User getSingleUser(String userId);
-
-    // User assignQuizToUser(String userId, String quizId);
     List<UserQuiz> getAllUserQuiz();
 
     User assigneQuizTouser(String userId, String quizId);
+
+    User getUserAndQuiz(String userId);
+
+    boolean deleteUserQuiz(String userId, String quizId);
     
 }

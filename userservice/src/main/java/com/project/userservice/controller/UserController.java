@@ -63,11 +63,11 @@ public class UserController
     //     return quizClient.getQuizById(quizId);
     // }
 
-    @GetMapping("/all/{userId}")
-    public User getSingleUser(@PathVariable String userId)
-    {
-        return userService.getSingleUser(userId);
-    }
+    // @GetMapping("/all/{userId}")
+    // public User getSingleUser(@PathVariable String userId)
+    // {
+    //     return userService.getSingleUser(userId);
+    // }
 
     
 }

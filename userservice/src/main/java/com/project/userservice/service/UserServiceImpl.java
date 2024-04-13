@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.userservice.config.QuizClient;
+import com.project.userservice.model.Quiz;
 import com.project.userservice.model.User;
 import com.project.userservice.model.UserQuiz;
-import com.project.userservice.model.Quiz;
 import com.project.userservice.repository.UserQuizRepository;
 import com.project.userservice.repository.UserRepository;
 
@@ -53,18 +53,18 @@ public class UserServiceImpl implements UserService
         return user;
     }
 
-    @Override
-    public User getSingleUser(String userId) 
-    {
-        User user = userRepository.findByUserId(userId);
+    // @Override
+    // public User getSingleUser(String userId) 
+    // {
+    //     User user = userRepository.findByUserId(userId);
 
-        List<Quiz> quiz = quizClient.getAllQuiz();
+    //     List<Quiz> quiz = quizClient.getAllQuiz();
 
-        user.setQuiz(quiz);
+    //     user.setQuiz(quiz);
 
-        return user;
+    //     return user;
         
-    }
+    // }
 
     @Override
     public List<UserQuiz> getAllUserQuiz() {
@@ -85,6 +85,34 @@ public class UserServiceImpl implements UserService
         List<Quiz> quizList = quizClient.getQuizWithQuestions( String.join(",", allUserQuiz));
         user.setQuiz(quizList);
         return user;
+    }
+
+    @Override
+    public User getUserAndQuiz(String userId) 
+    {
+        User user = userRepository.findByUserId(userId);
+        List<String> allUserQuiz = userQuizRepository.findQuizIdsByUserId(user.getUserId());
+        List<Quiz> quizList = quizClient.getQuizWithQuestions( String.join(",", allUserQuiz));
+        user.setQuiz(quizList);
+
+        return user;
+    }
+
+    @Override
+    public boolean deleteUserQuiz(String userId, String quizId) 
+    {
+        // User userToDelete = userRepository.findByUserId(userId);
+        try
+        {
+            userQuizRepository.deleteUserQuizById(userId, quizId);
+            return true;
+        }
+        catch(Exception e)
+        {
+            System.out.println("error in deleting the quiz ::" + quizId + " for user::" + userId);
+            return false;
+        }
+        
     }
 
     // @Override

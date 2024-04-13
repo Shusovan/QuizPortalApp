@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,19 @@ public class UserQuizController
         return ResponseEntity.status(HttpStatus.OK).body(userService.assigneQuizTouser(userId, quizId));
     }
 
+    @GetMapping("/getUserAndQuiz")
+    public ResponseEntity<User> getUserAndQuiz(@RequestParam String userId)
+    {
+        //return userId == null ? ResponseEntity.status(HttpStatus.OK).body(userService.getUserAndQuiz(userId): 
+        // ResponseEntity.status(HttpStatus.OK).body(userService.getUserAndQuiz(userId));
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserAndQuiz(userId));
+    }
+
+    @DeleteMapping("/deleteUserQuiz")
+    public boolean deleteUserQuiz(@RequestParam String userId, @RequestParam String quizId)
+    {
+        return userService.deleteUserQuiz(userId, quizId);
+    }
     
 
     // @GetMapping("/getQuizbyIds")
