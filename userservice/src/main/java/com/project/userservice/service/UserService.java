@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.project.userservice.model.User;
 import com.project.userservice.model.UserQuiz;
+import com.project.userservice.pojo.UserReponseBody;
 
 public interface UserService 
 {
@@ -21,5 +22,7 @@ public interface UserService
     User getUserAndQuiz(String userId);
 
     boolean deleteUserQuiz(String userId, String quizId);
+
+    Boolean saveUserAttempt(String userId, String quizId, List<UserReponseBody> userResponseList);
     
 }

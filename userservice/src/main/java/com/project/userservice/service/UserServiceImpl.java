@@ -7,8 +7,13 @@ import org.springframework.stereotype.Service;
 
 import com.project.userservice.config.QuizClient;
 import com.project.userservice.model.Quiz;
+import com.project.userservice.model.QuizAttempt;
 import com.project.userservice.model.User;
 import com.project.userservice.model.UserQuiz;
+import com.project.userservice.model.UserResponse;
+import com.project.userservice.pojo.UserReponseBody;
+import com.project.userservice.repository.QuizAttemptRepository;
+import com.project.userservice.repository.ResponseRepository;
 import com.project.userservice.repository.UserQuizRepository;
 import com.project.userservice.repository.UserRepository;
 
@@ -23,6 +28,12 @@ public class UserServiceImpl implements UserService
 
     @Autowired
     private QuizClient quizClient;
+
+    @Autowired
+    private QuizAttemptRepository quizAttemptRepository;
+
+    @Autowired
+    private ResponseRepository responseRepository;
 
     @Override
     public List<User> getAllUsers() 
@@ -115,6 +126,62 @@ public class UserServiceImpl implements UserService
         
     }
 
+    @Override
+    public Boolean saveUserAttempt(String userId, String quizId,List<UserReponseBody> userResponseList) 
+    {
+        try {
+        /*
+         * Fetching User and Quiz from UserQuiz
+         */
+        User user = userRepository.findByUserId(userId);
+        UserQuiz userQuiz = userQuizRepository.findUserQuiz(user.getUserAutoIncrementId().toString(), quizId);
+
+        /*
+         * Creating a variable(Integer) to get count of attempts
+         */
+        Integer maxAttempt = quizAttemptRepository.maxAttemptId(userQuiz.getAutoIncrId());
+
+        /*
+         * Check attempts of User
+         * If user has not attempted (maxAttempt == null), assign default attempt = 1
+         * save the attempt
+         */
+        QuizAttempt qa = new QuizAttempt();
+        if(maxAttempt == null)
+            qa.setUserQuiz(userQuiz);
+
+
+        /*
+         * Check attempts of User
+         * If user has already attempted the quiz (maxAttempt != null), increment the attempt(attemptId + 1)
+         * modify and save the attempts
+         */
+        else
+        {
+            qa.setAttemptID(maxAttempt + 1);
+            qa.setUserQuiz(userQuiz);
+            
+        }
+        quizAttemptRepository.save(qa);
+
+        UserResponse ur = new UserResponse();
+
+        for(UserReponseBody ur1 : userResponseList)
+        {
+            ur.setQuizAttempt(qa);
+            ur.setQuestionId(ur1.getQusetionId());
+            ur.setUserResponse(ur1.getUserAnswer());
+            responseRepository.save(ur);
+        }
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
+        return true;
+        
+    }
+
     // @Override
     // public User assignQuizToUser(String userId, String quizId)
     // {
@@ -146,7 +213,5 @@ public class UserServiceImpl implements UserService
     //     // return user
 
     // }
-
-    
     
 }
