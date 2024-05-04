@@ -15,15 +15,25 @@ import com.project.questionservice.repository.QuestionRepository;
 @Service
 public class QuestionServiceImpl implements QuestionService
 {
+    /*
+     * dependency injection : Field type
+     */
     @Autowired
     private QuestionRepository questionRepository;
 
+    /*
+     * Method Description : add and save Questions
+     */
     @Override
     public Question addQuestions(Question question) 
     {
         return questionRepository.save(question);
     }
 
+    /*
+     * Method Description : Get all Questions
+     * return : List of Questions
+     */
     @Override
     public List<Question> getAllQuestion() 
     {
@@ -31,6 +41,11 @@ public class QuestionServiceImpl implements QuestionService
         return question;
     }
 
+    /* 
+     * Method Description : Fetch all questions of a quiz using quizId
+     * @param quizId
+     * return : list of Questions for particular Quiz
+     */ 
     @Override
     public List<Question> getAllQuestionsOfQuiz(String quizId) 
     {

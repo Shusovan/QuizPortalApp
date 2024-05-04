@@ -26,7 +26,7 @@ public class QuestionController
     private QuestionService questionService;
 
     /*
-     * add/create question for a quiz
+     * API Description : add/create question for a quiz
      */
     @PostMapping("/addQuestion")
     public ResponseEntity<Question> addQuestions(@RequestBody Question question)
@@ -35,8 +35,8 @@ public class QuestionController
     }
 
     /*
-     * Get all questions
-     * return : list
+     * API Description : Get all questions
+     * return : list of Questions
      */
     @GetMapping("/getAllQuestions")
     public ResponseEntity<List<Question>> getAllQuestion()
@@ -45,9 +45,9 @@ public class QuestionController
     }
 
     /*
+     * API Description : Fetch all questions of a quiz using quizId
      * @param quizId
-     * Fetch all questions of a quiz using quizId
-     * return : list
+     * return : list of Questions for particular Quiz
      */
     @GetMapping("/quiz/{quizId}")
     public ResponseEntity<List<Question>> getQuestionsOfQuiz(@PathVariable String quizId)
@@ -55,7 +55,8 @@ public class QuestionController
         return ResponseEntity.status(HttpStatus.OK).body(questionService.getAllQuestionsOfQuiz(quizId));
     }
 
-    /* API Description : Fetch the correct answer of a question
+    /* 
+     * API Description : Fetch the correct answer of a question
      * @param questionId
      * return : object
      */

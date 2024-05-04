@@ -9,4 +9,7 @@ public interface QuizAttemptRepository extends JpaRepository<QuizAttempt, Long>
 {
     @Query("select max(qa.attemptID) from QuizAttempt qa where qa.userQuiz.autoIncrId = :userQuiz_autoIncrId")
     public Integer maxAttemptId(Long userQuiz_autoIncrId);
+
+    @Query("from QuizAttempt qa where qa.attemptID = :attemptID AND qa.userQuiz.autoIncrId = :autoIncrId")
+    public QuizAttempt getAttemptDetails(int attemptID, Long autoIncrId);
 }
