@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class Question:
+class Questions:
 
     questionId : int
 
@@ -18,3 +18,7 @@ class Question:
     option4 : str
 
     correctAnswer : str
+
+    isCorrect : bool = False
+
+    response : str = None

@@ -23,6 +23,8 @@ public interface QuizService
 
     List<Quiz> getQuizWithQuestions(String quizId);
 
+    Quiz getQuiz(String quizId);
+
     // Quiz assignQuizToUser(String userId, String quizId);
    
 }

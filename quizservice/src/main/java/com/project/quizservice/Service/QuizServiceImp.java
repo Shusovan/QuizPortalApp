@@ -108,4 +108,12 @@ public class QuizServiceImp implements QuizService
         return quizList;
     }
 
+    @Override
+    public Quiz getQuiz(String quizId) 
+    {
+        Quiz quiz = quizRepository.findByQuizId(quizId);
+
+        return quiz;
+    }
+
 }

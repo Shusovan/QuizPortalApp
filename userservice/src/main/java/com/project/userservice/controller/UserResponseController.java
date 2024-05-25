@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.userservice.model.UserResponse;
 import com.project.userservice.pojo.UserQuizAttemptResponse;
 import com.project.userservice.pojo.UserReponseBody;
 import com.project.userservice.service.UserService;

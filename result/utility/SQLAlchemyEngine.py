@@ -3,7 +3,7 @@ import psycopg2
 from sqlalchemy import create_engine
 from requests import Session
 from sqlalchemy.orm import sessionmaker
-from model.result_model import Base
+from model.User_Score import Base
 
 def SQLEngine():
 

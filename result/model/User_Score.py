@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 from model import user_model
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, DateTime, Integer, String
@@ -6,7 +7,7 @@ from sqlalchemy import Column, DateTime, Integer, String
 Base = declarative_base()
 
 @dataclass
-class Result(Base):
+class Score(Base):
 
     __tablename__ = "user_score"
 
@@ -20,4 +21,4 @@ class Result(Base):
 
     score = Column(Integer)
 
-    row_created = Column(DateTime)
+    row_created = Column(DateTime, default = datetime.now())
