@@ -22,3 +22,13 @@ class Score(Base):
     score = Column(Integer)
 
     row_created = Column(DateTime, default = datetime.now())
+
+    def to_dict(self):
+        return {
+            "scoreAutoIncrid": self.scoreAutoIncrid,
+            "userId": self.userId,
+            "quizId": self.quizId,
+            "attemptId": self.attemptId,
+            "score": self.score,
+            "row_created": self.row_created.isoformat() if self.row_created else None
+        }

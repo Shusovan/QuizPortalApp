@@ -66,10 +66,10 @@ def get_scores(params : dict) -> Score:
 
     userScore_sum = sum(userScore_list)
 
-    record_exists = session.query(Score).filter(and_(Score.attemptId == params.get("attemptId"), Score.userId == params.get("userId"), Score.quizId == params.get("quizId"))).first()
+    userScore = session.query(Score).filter(and_(Score.attemptId == params.get("attemptId"), Score.userId == params.get("userId"), Score.quizId == params.get("quizId"))).first()
     
-    if record_exists:
-        record_exists.score = userScore_sum
+    if userScore:
+        userScore.score = userScore_sum
 
     else:
         userScore = Score(userId = params.get("userId"), quizId = params.get("quizId"), attemptId = params.get("attemptId"), score = userScore_sum)
@@ -108,7 +108,8 @@ def get_report(params : dict) -> Report:
         
         response_correctAnswer = response_object.question.get("correctAnswer")
         response_userResponse = response_object.userResponse.get("userResponse")
-
+        
+        response_object.question.pop("quizId")
         # creating object for Question
         question_object = Questions(**response_object.question)
 
@@ -159,20 +160,20 @@ def get_report(params : dict) -> Report:
     quizId = response_quiz_json.get("quizId")
 
 
-    '''
-        Description : fetching Attempt details
-        @param userId
-        @param quizId
-    '''
-    attempt_url = os.environ.get("USER_SERVICE") + "response/attempt/" + str(params.get("userId")) + "/" + str(params.get("quizId"))
+    # '''
+    #     Description : fetching Attempt details
+    #     @param userId
+    #     @param quizId
+    # '''
+    # attempt_url = os.environ.get("USER_SERVICE") + "response/attempt/" + str(params.get("userId")) + "/" + str(params.get("quizId"))
 
-    response_attempt = requests.get(attempt_url, params = params)
+    # response_attempt = requests.get(attempt_url, params = params)
 
-    # attempt json
-    response_attempt_json = response_attempt.json()
+    # # attempt json
+    # response_attempt_json = response_attempt.json()
 
-    # fetching attempt details from Database
-    attempt = response_attempt_json.get("attemptID")
+    # # fetching attempt details from Database
+    # attempt = response_attempt_json.get("attemptID")
 
 
     '''
@@ -190,7 +191,7 @@ def get_report(params : dict) -> Report:
         set and return details for user Report
     '''
 
-    userReport = Report(firstName=fname, lastName=lname, email=email, tittle=tittle, duration=duration, attempt=attempt, question_list=questionList, final_score=total_score, quizId=quizId)
+    userReport = Report(firstName=fname, lastName=lname, email=email, tittle=tittle, duration=duration, attempt=int(params.get("attemptId")), question_list=questionList, final_score=total_score, quizId=quizId)
 
 
     # report_object = Report()

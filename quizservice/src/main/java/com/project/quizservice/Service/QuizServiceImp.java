@@ -85,13 +85,14 @@ public class QuizServiceImp implements QuizService
         return quiz;
     }
     
-    public List<Quiz> getQuizzesByIds(List<String> quizIds) {
+    public List<Quiz> getQuizzesByIds(List<String> quizIds) 
+    {
         return quizRepository.findAllByQuizIdIn(quizIds);
     }
 
     @Override
-    public List<Quiz> getAllQuizes() {
-        // TODO Auto-generated method stub
+    public List<Quiz> getAllQuizes() 
+    {
         return quizRepository.findAll();
 
     }

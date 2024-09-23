@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 #from requests import request
+from model.User_Score import Score
 from views import result_views
 from http import HTTPStatus
 
@@ -14,11 +15,13 @@ def get_all_users():
 # GET userId
 # GET quizId
 # GET attemptId
-
 @result.route('/getScores', methods=['GET'])
-def get_scores():
+def get_scores() -> Score:
+    
+    score = result_views.get_scores(request.args)
+    
+    return jsonify(score.to_dict()), HTTPStatus.OK
 
-    return jsonify(result_views.get_scores(request.args)), HTTPStatus.OK
 
 @result.route('/getReport', methods=['GET'])
 def get_report():

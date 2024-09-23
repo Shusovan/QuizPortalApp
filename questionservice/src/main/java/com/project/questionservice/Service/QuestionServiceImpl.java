@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.questionservice.exception.QuestionNotFoundException;
+import com.project.questionservice.exception.QuizNotFoundException;
 import com.project.questionservice.model.Question;
 import com.project.questionservice.repository.QuestionRepository;
 
@@ -42,14 +43,20 @@ public class QuestionServiceImpl implements QuestionService
     }
 
     /* 
-     * Method Description : Fetch all questions of a quiz using quizId
+     * Method Description : Fetch all questions of a quiz using quizId, throws exception if quizId does not exists
      * @param quizId
      * return : list of Questions for particular Quiz
      */ 
     @Override
-    public List<Question> getAllQuestionsOfQuiz(String quizId) 
+    public List<Question> getAllQuestionsOfQuiz(String quizId) throws QuizNotFoundException
     {
-        return questionRepository.findByQuizId(quizId);
+        List<Question> questions = questionRepository.findByQuizId(quizId);
+
+        if(questions.isEmpty())
+        {
+            throw new QuizNotFoundException("Quiz ID "+quizId+" does not exixt");
+        }
+        return questions;
     }
 
     @Override
@@ -76,6 +83,57 @@ public class QuestionServiceImpl implements QuestionService
         }
             
         return map;
+    }
+
+    @Override
+    public Question updateQuestion(Long questionId, String quizId, Map<String, String> updates) throws QuestionNotFoundException 
+    {
+        Question newQuestions = questionRepository.findById(questionId).orElseThrow(() -> new QuestionNotFoundException("Question ID "+questionId+" does not exist"));
+
+        updates.forEach((key, value) -> {
+            switch (key) 
+            {
+                case "question":
+                    newQuestions.setQuestion(value);
+                    break;
+
+                case "option1":
+                    newQuestions.setOption1(value);
+                    break;
+
+                case "option2":
+                    newQuestions.setOption2(value);
+                    break;
+
+                case "option3":
+                    newQuestions.setOption3(value);
+                    break;
+
+                case "option4":
+                    newQuestions.setOption4(value);
+                    break;
+
+                case "correctAnswer":
+                    newQuestions.setCorrectAnswer(value);
+                    break;
+            
+                default:
+                    throw new IllegalArgumentException("Invalid field: " + key);
+            }
+        });
+
+        final Question updatedQuestions = questionRepository.save(newQuestions);
+
+        return updatedQuestions;
+
+    }
+
+    @Override
+    public Boolean deleteQuestion(Long questionId) 
+    {
+        questionRepository.deleteById(questionId);
+
+        return true;
     }
     
 }

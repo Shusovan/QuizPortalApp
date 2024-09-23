@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from os.path import join, dirname
 
 from routes import result_routes
 
@@ -12,7 +13,8 @@ app = Flask(__name__)
 
 # db = SQLAlchemy(app)
 
-load_dotenv()
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 app.register_blueprint(result_routes.result)
 
 @app.route("/")

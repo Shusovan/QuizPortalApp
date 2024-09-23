@@ -5,7 +5,7 @@ class Questions:
 
     questionId : int
 
-    quizId : str
+    # quizId : str
 
     question : str
 

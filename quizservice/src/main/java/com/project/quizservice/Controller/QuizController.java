@@ -27,6 +27,11 @@ public class QuizController
     @Autowired
     private QuizService quizService;
 
+    /*
+     * Description : Create/Add users
+     * @param      : Quiz
+     * return      : Save user to Database
+     */
     @PostMapping("/add")
     public Quiz addQuiz(@RequestBody Quiz quiz)
     {

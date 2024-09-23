@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from requests import Session
 from sqlalchemy.orm import sessionmaker
 from model.User_Score import Base
+from utility import load_env
 
 def SQLEngine():
 

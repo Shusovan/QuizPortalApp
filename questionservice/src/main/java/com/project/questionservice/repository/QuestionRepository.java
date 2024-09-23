@@ -13,4 +13,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long>
 
     @Query("from Question q where q.questionId IN :questionId")
     public List<Question> findByQuestionIdList(List<String> questionId);
+
+    // @Query("from Question q where q.quizId = :quizId and q.questionId = :questionId")
+    // public Question findByQuestionIdQuizId(Long questionId, String quizId);
 }
