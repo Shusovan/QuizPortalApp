@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,7 +65,7 @@ public class QuestionController
      * return : object
      */
     @GetMapping("/fetchCorrectAnswer")
-    public ResponseEntity<Map<String, Question>> fetchCorrectAnswer(@RequestParam(value = "questionId") String questionId) throws QuestionNotFoundException
+    public ResponseEntity<Map<String, Question>> fetchCorrectAnswer(@RequestParam String questionId) throws QuestionNotFoundException
     {
         return ResponseEntity.status(HttpStatus.OK).body(questionService.fetchCorrectAnswer(questionId));
     }
@@ -77,7 +76,7 @@ public class QuestionController
      * return : Question object
      */
     @PatchMapping("/updateQuestions")
-    public ResponseEntity<Question> updateQuestion(@RequestParam(value = "questionId") Long questionId, @RequestParam(value = "quizId") String quizId,  @RequestBody Map<String, String> updates) throws QuestionNotFoundException
+    public ResponseEntity<Question> updateQuestion(@RequestParam Long questionId, @RequestParam String quizId,  @RequestBody Map<String, String> updates) throws QuestionNotFoundException
     {
         return ResponseEntity.status(HttpStatus.OK).body(questionService.updateQuestion(questionId, quizId, updates));
     }
@@ -88,7 +87,7 @@ public class QuestionController
      * return : Boolean (treue/false)
      */
     @DeleteMapping("/deleteQuestion")
-    public ResponseEntity<Boolean> deleteQuestion(@RequestParam(value = "questionId") Long questionId)
+    public ResponseEntity<Boolean> deleteQuestion(@RequestParam Long questionId) throws QuestionNotFoundException
     {
         return ResponseEntity.status(HttpStatus.OK).body(questionService.deleteQuestion(questionId));
     }

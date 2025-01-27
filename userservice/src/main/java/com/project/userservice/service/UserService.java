@@ -2,10 +2,10 @@ package com.project.userservice.service;
 
 import java.util.List;
 
+import com.project.userservice.dto.UserQuizAttemptResponse;
+import com.project.userservice.dto.UserReponseBody;
 import com.project.userservice.model.User;
 import com.project.userservice.model.UserQuiz;
-import com.project.userservice.pojo.UserQuizAttemptResponse;
-import com.project.userservice.pojo.UserReponseBody;
 
 public interface UserService 
 {

@@ -20,11 +20,11 @@ public interface UserQuizRepository extends JpaRepository<UserQuiz, Long>
     @Query("select quizId from UserQuiz uq where uq.user.userId = :userId")
     public List<String> findQuizIdsByUserId(String userId);
 
-    @Query("FROM UserQuiz uq WHERE uq.user.userAutoIncrementId = :userAutoIncrementId AND uq.quizId = :quizId")
-    public UserQuiz findUserQuiz(@Param("userAutoIncrementId") String userAutoIncrementId, @Param("quizId")String quizId);
+    @Query("FROM UserQuiz uq WHERE uq.user.userUUID = :userUUID AND uq.quizId = :quizId")
+    public UserQuiz findUserQuiz(@Param("userUUID") String userUUID, @Param("quizId")String quizId);
 
-    @Query("FROM UserQuiz uq WHERE uq.user.userAutoIncrementId = :userAutoIncrementId AND uq.quizId = :quizId")
-    public UserQuiz findByUserQuizId(String userAutoIncrementId, String quizId);
+    @Query("FROM UserQuiz uq WHERE uq.user.userUUID = :userUUID AND uq.quizId = :quizId")
+    public UserQuiz findByUserQuizId(String userUUID, String quizId);
 
     @Modifying
     @Query("DELETE FROM UserQuiz uq WHERE uq.user.userId = :userId AND uq.quizId = :quizId")

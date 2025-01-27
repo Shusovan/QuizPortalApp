@@ -14,13 +14,13 @@ public class GlobalExceptionHandler
     public ResponseEntity<ApiResponse> handleQuestionNotFoundException(QuestionNotFoundException exception)
     {
         ApiResponse apiResponse = new ApiResponse(new Date(), exception.getMessage(), false);
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(QuizNotFoundException.class)
     public ResponseEntity<ApiResponse> handleQuizNotFoundException(QuizNotFoundException exception)
     {
         ApiResponse apiResponse = new ApiResponse(new Date(), exception.getMessage(), false);
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
     }
 }

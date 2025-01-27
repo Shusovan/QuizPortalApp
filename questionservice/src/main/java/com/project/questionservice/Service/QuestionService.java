@@ -20,6 +20,6 @@ public interface QuestionService
 
     Question updateQuestion(Long questionId, String quizId, Map<String, String> updates) throws QuestionNotFoundException;
 
-    Boolean deleteQuestion(Long questionId);
+    Boolean deleteQuestion(Long questionId) throws QuestionNotFoundException;
     
 }

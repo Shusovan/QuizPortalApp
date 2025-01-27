@@ -6,18 +6,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.userservice.config.QuestionClient;
 import com.project.userservice.config.QuizClient;
-import com.project.userservice.model.Question;
-import com.project.userservice.model.Quiz;
+import com.project.userservice.dto.Question;
+import com.project.userservice.dto.Quiz;
+import com.project.userservice.dto.UserQuizAttemptResponse;
+import com.project.userservice.dto.UserReponseBody;
 import com.project.userservice.model.QuizAttempt;
 import com.project.userservice.model.User;
 import com.project.userservice.model.UserQuiz;
 import com.project.userservice.model.UserResponse;
-import com.project.userservice.pojo.UserQuizAttemptResponse;
-import com.project.userservice.pojo.UserReponseBody;
 import com.project.userservice.repository.QuizAttemptRepository;
 import com.project.userservice.repository.ResponseRepository;
 import com.project.userservice.repository.UserQuizRepository;
@@ -44,6 +45,9 @@ public class UserServiceImpl implements UserService
     @Autowired
     private QuestionClient questionClient;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public List<User> getAllUsers() 
     {
@@ -61,6 +65,9 @@ public class UserServiceImpl implements UserService
         String uId = (fname.substring(0, 3) + lname.substring(0, 3)).toUpperCase();
 
         user.setUserId(uId);
+
+        // encrypting the password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
     }
@@ -144,7 +151,7 @@ public class UserServiceImpl implements UserService
             * Fetching User and Quiz from UserQuiz
             */
             User user = userRepository.findByUserId(userId);
-            UserQuiz userQuiz = userQuizRepository.findUserQuiz(user.getUserAutoIncrementId().toString(), quizId);
+            UserQuiz userQuiz = userQuizRepository.findUserQuiz(user.getUserUUID().toString(), quizId);
 
             /*
             * Creating a variable(Integer) to get count of attempts
@@ -211,7 +218,7 @@ public class UserServiceImpl implements UserService
     public List<UserQuizAttemptResponse> getUserQuizAttemptResponse(String userId, String quizId, int attemptId) 
     {
         User user = userRepository.findByUserId(userId);
-        UserQuiz userQuiz = userQuizRepository.findByUserQuizId(user.getUserAutoIncrementId().toString(), quizId);
+        UserQuiz userQuiz = userQuizRepository.findByUserQuizId(user.getUserUUID().toString(), quizId);
         QuizAttempt quizAttempt = quizAttemptRepository.getAttemptDetails(attemptId, userQuiz.getAutoIncrId());
         List<UserResponse> userResponseList = responseRepository.getResponseOfUser(quizAttempt.getAttemptAutoId());
 

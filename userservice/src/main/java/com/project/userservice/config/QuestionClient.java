@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.project.userservice.model.Question;
+import com.project.userservice.dto.Question;
 
 @FeignClient(url = "http://localhost:8082", value = "Question-Client")
 public interface QuestionClient 

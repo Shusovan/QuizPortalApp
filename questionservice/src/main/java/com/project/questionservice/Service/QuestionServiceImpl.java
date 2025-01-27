@@ -1,9 +1,11 @@
 package com.project.questionservice.Service;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,10 +54,11 @@ public class QuestionServiceImpl implements QuestionService
     {
         List<Question> questions = questionRepository.findByQuizId(quizId);
 
-        if(questions.isEmpty())
+        if(questions == null || questions.isEmpty())
         {
             throw new QuizNotFoundException("Quiz ID "+quizId+" does not exixt");
         }
+
         return questions;
     }
 
@@ -71,18 +74,31 @@ public class QuestionServiceImpl implements QuestionService
          * create Map<questionIds, Question> and map each questionId(key) with Question(value) object
          * this will return all question of specific ID seperated by ','
          */
-
-        List<String> questionIds = Arrays.asList(questionId.split(","));
-        List<Question> questions = questionRepository.findByQuestionIdList(questionIds);
-
-        Map<String, Question> map = new HashMap<>();
-
-        for(Question question : questions)
+        try
         {
-            map.put(question.getQuestionId().toString(), question);
+            List<String> questionIds = Arrays.asList(questionId.split(","));
+            List<Question> questions = questionRepository.findByQuestionIdList(questionIds);
+
+            if(questions == null || questions.isEmpty())
+            {
+                throw new QuestionNotFoundException("Question ID "+questionId+" does not exixt");
+            }
+
+            Map<String, Question> map = new HashMap<>();
+
+            for(Question question : questions)
+            {
+                map.put(question.getQuestionId().toString(), question);
+            }
+
+            return map;
         }
-            
-        return map;
+
+        catch (QuestionNotFoundException e) 
+        {
+            // Catching any other unexpected exceptions
+            throw new RuntimeException("An error occurred while fetching the correct answer: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -122,6 +138,8 @@ public class QuestionServiceImpl implements QuestionService
             }
         });
 
+        newQuestions.setUpdatedAt(LocalDateTime.now());
+
         final Question updatedQuestions = questionRepository.save(newQuestions);
 
         return updatedQuestions;
@@ -129,11 +147,26 @@ public class QuestionServiceImpl implements QuestionService
     }
 
     @Override
-    public Boolean deleteQuestion(Long questionId) 
+    public Boolean deleteQuestion(Long questionId) throws QuestionNotFoundException
     {
-        questionRepository.deleteById(questionId);
+        Optional<Question> question = questionRepository.findById(questionId);
 
-        return true;
+        if(question.isEmpty())
+        {
+            throw new QuestionNotFoundException("Question ID "+questionId+" does not exist");
+        }
+
+        try
+        {
+            questionRepository.deleteById(questionId);
+            return true;
+        }
+
+        catch (Exception e) 
+        {
+            throw new RuntimeException("An error occurred while deleting the question: " + e.getMessage());
+        }
+        
     }
     
 }

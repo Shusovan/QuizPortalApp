@@ -1,6 +1,5 @@
-package com.project.userservice.pojo;
+package com.project.userservice.dto;
 
-import com.project.userservice.model.Question;
 import com.project.userservice.model.UserResponse;
 
 import lombok.Data;

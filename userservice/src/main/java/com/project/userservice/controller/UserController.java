@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.userservice.config.QuizClient;
-import com.project.userservice.model.Quiz;
+import com.project.userservice.dto.Quiz;
 import com.project.userservice.model.User;
 import com.project.userservice.service.UserService;
 
@@ -40,7 +40,7 @@ public class UserController
     }
 
     @GetMapping("/getUser/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable(value = "userId") String userId)
+    public ResponseEntity<User> getUserById(@PathVariable String userId)
     {
         return ResponseEntity.status(HttpStatus.FOUND).body(userService.getUserById(userId));
     }

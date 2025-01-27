@@ -1,4 +1,4 @@
-package com.project.userservice.pojo;
+package com.project.userservice.dto;
 
 import lombok.Data;
 
